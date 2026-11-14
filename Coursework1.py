@@ -1,9 +1,9 @@
 ### Coursework-1 ###
 import random as rd
 import matplotlib.pyplot as plt
+import Coursework_Funs as fnc
 
-
-#-----------------------------------------------------------------------------------------------------------------------------------------
+#---------------------------------------------------------------------------------------------------------------------------------------------------
 #TASK 1
 
 DESIRED_SENTENCE = "he who seeks rest finds boredom. he who seeks work finds rest."
@@ -41,7 +41,7 @@ def score(attempt: str):
     return the_score
 
 
-#------------------------------------------------------------------------------------------------------------------------------------------
+#----------------------------------------------------------------------------------------------------------------------------------------------------
 
 #Now we will use this while-loop to see if we can generate the DESIRED_SENTENCE.
 
@@ -52,7 +52,7 @@ while i < 10000: #limits trials to 10000
     """
     Adds the score for each trial of 'random_sentence' to a list, attempt_scores
     """
-    the_score = score(genRANDText())
+    the_score = fnc.score(genRANDText())
     attempt_scores.append(the_score)
 
     if the_score == len(DESIRED_SENTENCE):
@@ -82,7 +82,7 @@ print("Average score: ", sum(attempt_scores) / len(attempt_scores))
 print("Best score: ", max(attempt_scores))
 print("Worst score: ", min(attempt_scores))
 
-#_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+#_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 #TASK 2
 
 def evolution(S: str):
@@ -107,13 +107,13 @@ def evolution(S: str):
 
 #This will simulate evolving a generated text, D, 10,000 times and monitoring its score the more it 'evolves'.
 
-experiment = genRANDText()
+experiment = fnc.genRANDText()
 scores_experiment = []
 for i in range(10000):
 
-    scores_experiment.append(score(experiment))
+    scores_experiment.append(fnc.score(experiment))
     if experiment != DESIRED_SENTENCE:
-        experiment = evolution(experiment)
+        experiment = fnc.evolution(experiment)
 
 
 plt.plot(scores_experiment)
@@ -128,7 +128,7 @@ plt.show()
 # We do need to run enough iterations for this to confirm our conjecture of course though...
 
 
-#_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+#_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 # TASK 3
 
 #1
@@ -163,13 +163,13 @@ def evolution(S: list, mutation_rate: int):
     
 # Now we take a random_sentence and analyse how the mutation rate effects the runs needed to obtain our DESIRED_SENTENCE
 
-random_sentence = genRANDText()
+random_sentence = fnc.genRANDText()
 for i in range(1, len(random_sentence) + 1):
     scores_random_sentence = []
     evo = random_sentence
     for j in range(9000):
-        evo = evolution(evo, i)
-        scores_random_sentence.append(score(evo))
+        evo = fnc.evolution(evo, i)
+        scores_random_sentence.append(fnc.score(evo))
     plt.bar(i, scores_random_sentence[-1])
 plt.title("How mutation_rate effects the score after 9000 loops")
 plt.xlabel("Mutation_rate")
@@ -191,27 +191,51 @@ plt.show()
 #
 #
 
-def closeness_score(attempt: str):
+def closeness(attempt: str):
     """
-    idea is to reward the closeness to a desired letter from an attempt on a scale of 1-28 (28 being the worst). The lower the score, the better.
+    idea is to find the mean closeness to a desired letter from a character from attempt on a scale of 1-28 (28 being the worst). The lower the score, the better.
     """
     characters = [" ", ".", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", 
                   "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
     
     score = 0 
     for i in range(len(attempt)):
-        difference = abs( characters.index(DESIRED_SENTENCE[i]) - characters.index(attempt[i]) )
+        difference = abs( characters.index(DESIRED_SENTENCE[i]) - characters.index(attempt[i]) ) / len(attempt)
         score += difference
 
     return score
 
+
+#showcases 50 different random_sentences' closeness_score on a bar chart
 ls = []
 
 for i in range(50):
-    sentence = genRANDText()
-    ls.append(closeness_score(sentence))
+    sentence = fnc.genRANDText()
+    ls.append(fnc.closeness(sentence))
     plt.bar(i, ls[-1])
+print("Average score: ", sum(ls) / len(ls))
+print("Best score: ", max(ls))
+print("Worst score: ", min(ls))
+plt.title("Closeness of random_sentence")
+plt.xlabel("random_sentence")
+plt.ylabel("Closeness")
+plt.show()
 
+
+#Now will take into account evolution and how mutation rate changes the closeness_score of a random_sentence
+
+random_sentence = fnc.genRANDText()
+for i in range(1, len(random_sentence) + 1):
+    new_score_rand = []
+    evo = random_sentence
+    for j in range(5000):
+        evo = fnc.evolution(evo, i)
+        new_score_rand.append(closeness(evo))
+    plt.bar(i, new_score_rand[-1])
+    
+plt.title("Closeness of the string")
+plt.xlabel("Mutation rate")
+plt.ylabel("Average closeness")
 plt.show()
 
 
