@@ -68,19 +68,25 @@ for i in range(len(attempt_scores)):
     else:
         score_counter[attempt_scores[i]] = 1
 
+#average, best and worst scores
+Average_score = sum(attempt_scores) / len(attempt_scores)
+Best_score = max(attempt_scores)
+Worst_score =  min(attempt_scores)
+
+plt.subplots(figsize=(5, 3))
 
 x_values = score_counter.keys()
 y_values = score_counter.values()
 plt.bar(x_values, y_values)
-plt.title("Histogram of random_sentences")
+# plt.title(f"Iterations = 10000", "Highest Score = ", "Lowest Score")
+plt.title(
+    f"Histogram of Random Sentences\nMean = {Average_score}, Best Score = {Best_score}, Worst Score = {Worst_score}"
+)
 plt.xlabel("Score of the random_sentence")
 plt.ylabel("Frequency of Score")
 plt.show()
 
-#Now printing the average, best and worst scores
-print("Average score: ", sum(attempt_scores) / len(attempt_scores))
-print("Best score: ", max(attempt_scores))
-print("Worst score: ", min(attempt_scores))
+
 
 #_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 #TASK 2

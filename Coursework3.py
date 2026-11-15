@@ -66,7 +66,7 @@ plt.xlabel("Mutation rate")
 plt.ylabel("Average closeness")
 plt.show()
 
-#Now with this we can apply the theory of a selection pressure further. Lets say we have 50 different strings (characters),
+# Now with this we can apply the theory of a selection pressure further. Lets say we have 50 different strings (characters),
 # We want to keep the ones that have a closeness_score lower than average (as the others did not have a trait which they needed to survive)
 # and then mutate them with a mutation rate of 1 - this is because we have seen that this achieves a higher score (lower closeness_score)
 # across iterations. We will then see the score of the overall survivor (of the fittest)
