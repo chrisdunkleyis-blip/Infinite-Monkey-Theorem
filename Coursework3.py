@@ -77,5 +77,10 @@ plt.show()
 # and see what the outcome is...
 
 
-
+rand = fnc.genRANDText()
+ls = []
+for i in range(9000):
+    rand = fnc.average_evolution(rand, 1)
+    ls.append(fnc.closeness(rand))
+print(ls[-1])
 

@@ -126,12 +126,7 @@ def average_evolution(S: str, mutation_rate: int):
 
 
 
-rand = genRANDText()
-ls = []
-for i in range(9000):
-    rand = average_evolution(rand, 1)
-    ls.append(closeness(rand))
-print(ls[-1])
+
 
 
 
