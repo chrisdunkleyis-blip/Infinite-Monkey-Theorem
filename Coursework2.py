@@ -22,6 +22,6 @@ plt.ylabel("Score of the text")
 plt.show()
 
 #This creates a very interesting graph. Sort of similar looking to a CDF of an exponential (1-e^-cx). Only our graph spans values above 1.
-# --> if this graph was continuous, then it probably has a derivative = pdf of a random variable X~exponential(c) thus
+# --> if this graph had more of a smoother curve, then it probably has a derivative ~~ pdf of a random variable X~exponential(c) thus
 # telling us the rate of the graph we produced.
 # We do need to run enough iterations for this to confirm our conjecture of course though...

@@ -25,16 +25,16 @@ def genRANDText():
     return random_sentence
 
 
-def score(attempt: str):
+def score(S: str):
     """
-    Function which decides how many i-th characters from our 'attempt' sentence is equal to the i-th character
+    Function which decides how many i-th characters from our 'S' sentence is equal to the i-th character
     of the 'DESIRED_SENTENCE' using a for-loop.
     incrememts 'the_score' by 1 when a matching i-th character is found.
     """
     the_score = 0
 
-    for i in range(len(attempt)):
-        if DESIRED_SENTENCE[i] == attempt[i]:
+    for i in range(len(S)):
+        if DESIRED_SENTENCE[i] == S[i]:
             the_score += 1
 
     return the_score
@@ -84,15 +84,56 @@ def evolution(S: list, mutation_rate: int):
 
 
 
-def closeness(attempt: str):
+def closeness(S: str):
     """
-    idea is to find the mean closeness to a desired letter from a character from attempt on a scale of 1-28 (28 being the worst). The lower the score, the better.
+    idea is to find the mean closeness to a desired letter from a character from attempt on a scale of 1-28 (28 being the worst).
+    The lower the score, the closer our sentence is to our DESIRED_SENTENCE.    
+    We then take the average of the summated values.
     """
     
-    score = 0 
-    for i in range(len(attempt)):
-        difference = abs( CHARACTERS.index(DESIRED_SENTENCE[i]) - CHARACTERS.index(attempt[i]) ) / len(attempt)
-        score += difference
+    scores = 0 
+    for i in range(len(S)):
+        difference = abs( CHARACTERS.index(DESIRED_SENTENCE[i]) - CHARACTERS.index(S[i]) )
+        scores += difference 
 
-    return score
+    return scores / len(S)
+
+
+
+def average_evolution(S: str, mutation_rate: int):
+    """
+    This function changes our string S based on if a given mutation_rate has decreased the average closeness, i.e transformed the next
+    generation into a closer version to the desired sentence.
+    """
     
+    randomised_indices = []
+    for i in range(mutation_rate):
+            while True:
+                test = rd.randint(0, 61)
+                if test not in randomised_indices:
+                    randomised_indices.append(test)
+                    break
+
+    new_S = S
+    for j in range(len(randomised_indices)):
+        new_S = new_S[0: randomised_indices[j]] + rd.choice(CHARACTERS) + new_S[randomised_indices[j] + 1:]
+    
+
+    if closeness(new_S) <= closeness(S):
+         return new_S
+    else:
+        return S
+
+
+
+rand = genRANDText()
+ls = []
+for i in range(9000):
+    rand = average_evolution(rand, 1)
+    ls.append(closeness(rand))
+print(ls[-1])
+
+
+
+
+

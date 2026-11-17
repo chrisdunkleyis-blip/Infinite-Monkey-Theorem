@@ -46,7 +46,7 @@ print("Best score: ", max(ls))
 print("Worst score: ", min(ls))
 plt.title("Closeness of random_sentence")
 plt.xlabel("random_sentence")
-plt.ylabel("Closeness")
+plt.ylabel("Average Closeness")
 plt.show()
 
 
@@ -68,9 +68,14 @@ plt.show()
 
 # Now with this we can apply the theory of a selection pressure further. Lets say we have 50 different strings (characters),
 # We want to keep the ones that have a closeness_score lower than average (as the others did not have a trait which they needed to survive)
-# and then mutate them with a mutation rate of 1 - this is because we have seen that this achieves a higher score (lower closeness_score)
-# across iterations. We will then see the score of the overall survivor (of the fittest)
-# - limitation: each survivor reproduces asexually and produces one mutated offspring.
+# This is interesting because a string with a higher score may actually have a closeness score that is worse than average.
+# So consequently we should change our conditions for evolution???
+# 
+# See if mutation rate alters average closeness across iterations and with which rate does it actually optimise evolution.
+
+# Using our function defined by average_evolution(), we will see how mutation rate will effect the closeness of a random sentence,
+# and see what the outcome is...
+
 
 
 
