@@ -21,7 +21,19 @@ plt.xlabel("Evolutions")
 plt.ylabel("Score of the text")
 plt.show()
 
-#This creates a very interesting graph. Sort of similar looking to a CDF of an exponential (1-e^-cx). Only our graph spans values above 1.
-# --> if this graph had more of a smoother curve, then it probably has a derivative ~~ pdf of a random variable X~exponential(c) thus
-# telling us the rate of the graph we produced.
-# We do need to run enough iterations for this to confirm our conjecture of course though...
+
+
+#Mean referred to in the report
+score_at_number = []
+for i in range(4000):
+    sentence = fnc.genRANDText()
+    lis = []
+    for j in range(200):
+        lis.append(fnc.score(sentence))
+        sentence = fnc.evolution(sentence, 1)
+    score_at_number.append(lis[-1])
+
+print(sum(score_at_number) / len(score_at_number))
+
+
+

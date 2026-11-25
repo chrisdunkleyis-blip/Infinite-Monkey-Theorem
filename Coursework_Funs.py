@@ -91,12 +91,12 @@ def closeness(S: str):
     We then take the average of the summated values.
     """
     
-    scores = 0 
+    total_difference = 0 
     for i in range(len(S)):
         difference = abs( CHARACTERS.index(DESIRED_SENTENCE[i]) - CHARACTERS.index(S[i]) )
-        scores += difference 
+        total_difference += difference 
 
-    return scores / len(S)
+    return total_difference / len(S)
 
 
 

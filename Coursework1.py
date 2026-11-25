@@ -1,5 +1,6 @@
 ### Coursework-1 ###
 import random as rd
+import math
 import matplotlib.pyplot as plt
 import Coursework_Funs as fnc
 
@@ -48,6 +49,19 @@ plt.title(
 )
 plt.xlabel("Score of the random_sentence")
 plt.ylabel("Frequency of Score")
+plt.show()
+
+# We will plot our values against a binomial distributions, using paramaters n = 62 trials and probability 1/28 as each character can take one of 28 options
+n, p = 62, 1/28
+pmf = [math.comb(n, k) * p**k * (1-p)**(n-k) for k in range(n+1)]
+
+plt.hist(attempt_scores, bins=range(max(attempt_scores) + 2), align="left", rwidth=0.8, density=True, label="Simulation")
+plt.plot(range(n+1), pmf, "ro-", label="Theorised Binomial")
+plt.xlim(-1, max(attempt_scores) + 2)
+plt.xlabel("Score")
+plt.ylabel("Relative Frequency")
+plt.title("Relative Frequency Vs Binomial~(62,1/28)")
+plt.legend()
 plt.show()
 
 

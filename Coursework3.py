@@ -15,8 +15,8 @@ for i in range(1, len(random_sentence) + 1):
         evo = fnc.evolution(evo, i)
         scores_random_sentence.append(fnc.score(evo))
     plt.bar(i, scores_random_sentence[-1])
-plt.title("How mutation_rate effects the score after 9000 loops")
-plt.xlabel("Mutation_rate")
+plt.title("How mutation rate effects the score after 9000 loops")
+plt.xlabel("Mutation rate")
 plt.ylabel("Score after loops")
 plt.show()
 
@@ -31,7 +31,8 @@ plt.show()
 #Target sentence:
 #              "two is a prime"
 #for our first letter 'd' in random_sentence, we will want to obtain somwthing in theory 'closer' to the desired letter, 't' and 
-# then reward the string with a higher score based on how close the mutated characters are to the desired one.
+# then reward the string with a lower difference based on how close the mutated characters are to the desired one. A difference
+# of 0 implies the sentence is now equal to the desired sentence.
 
 
 #showcases 50 different random_sentences' closeness_score on a bar chart
@@ -67,11 +68,8 @@ plt.ylabel("Average closeness")
 plt.show()
 
 # Now with this we can apply the theory of a selection pressure further. Lets say we have 50 different strings (characters),
-# We want to keep the ones that have a closeness_score lower than average (as the others did not have a trait which they needed to survive)
-# This is interesting because a string with a higher score may actually have a closeness score that is worse than average.
-# So consequently we should change our conditions for evolution???
-# 
-# See if mutation rate alters average closeness across iterations and with which rate does it actually optimise evolution.
+# See if mutation rate alters average closeness differently to previous evolution across iterations and with which rate
+# does it actually optimise evolution.
 
 # Using our function defined by average_evolution(), we will see how mutation rate will effect the closeness of a random sentence,
 # and see what the outcome is...
@@ -84,3 +82,18 @@ for i in range(9000):
     ls.append(fnc.closeness(rand))
 print(ls[-1])
 
+
+#comparing relationship with score and closeness across 10000 evolutions for a single sentence.
+sentence = fnc.genRANDText()
+scores = []
+close = []
+for i in range(10000):
+    sentence = fnc.average_evolution(sentence, 1)
+    scores.append(fnc.score(sentence))
+    close.append(fnc.closeness(sentence))
+    plt.plot(close)
+    plt.plot(scores)
+plt.xlabel("Generations")
+plt.ylabel("Score/Closeness")
+plt.title("How a sentence's score and closeness change with evolutions")
+plt.show()
